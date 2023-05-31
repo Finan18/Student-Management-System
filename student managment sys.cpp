@@ -4,19 +4,16 @@
 using namespace std;
 class node {
 public:
-    int roll_no;
+    int roll_no;// id
     string name;
     float mark, per;
-
-    node* next;
+    node* next;// pointer to next node
 };
-
-
 class linked_list {
 public:
     node* head = NULL;
-    void insert_info()
-    {
+    node* tail = NULL;
+    void insert_info() {
         int r;
         string n;
         float m;
@@ -26,70 +23,61 @@ public:
         cout << "Enter Your Name: ";
         cin >> n;
 
-        do
-        {
+        do {
             cout << "Enter Marks (out of 150): ";
             cin >> m;
             if (m < 0 || m > 150)
             {
+
                 cout << "Wrong value, Please Enter again\n";
             }
-        } while (m < 0 || m > 150);
-        
+        } while (m < 0 || m > 150);// not responding to next block of code untill right marks inserted
 
-        node* newnode = new node;
+
+        node* newnode = new node;// create new node
+        // assign values 
         newnode->roll_no = r;
         newnode->name = n;
         newnode->mark = m;
         newnode->per = m / 150 * 100;
 
-        if (head == NULL)
-        {
-            head = newnode;
+        if (head == NULL) {
+            head = tail = newnode;
             newnode->next = NULL;
         }
-        else
-        {
-            node* ptr = head;
-            while (ptr->next != NULL)
-            {
-                ptr = ptr->next;
-            }
-            ptr->next = newnode;
+        else {
+            tail->next = newnode;
+            tail = newnode;
+            newnode->next = NULL;
         }
 
         cout << "NEW NODE INSERTED SUCCEFULLY \n";
         cout << "**********************************\n";
     }
-    
 
-    void search()
-    {
-        if (head == NULL)
-        {
+
+    void search() {
+        if (head == NULL) {
             cout << "No records yet...";
         }
-        else
-        {
+        else {
             int r;
-            int found = 0;
+            bool found = 0;
             cout << "enter roll_no for search: ";
             cin >> r;
             node* ptr = head;
-            while (ptr != NULL)
-            {
-                if (r == ptr->roll_no)
-                {
+            while (ptr != NULL) {
+                if (r == ptr->roll_no) {
                     cout << "roll_no: " << ptr->roll_no << endl;
                     cout << "Name: " << ptr->name << endl;
                     cout << "Marks: " << ptr->mark << endl;
                     cout << "Per %: " << ptr->per << endl;
-                    found++;
+                    found = true;
+                    break;
                 }
                 ptr = ptr->next;
             }
-            if (found == 0)
-            {
+            if (!found) {// if not found
                 cout << " search roll_no " << r << " can't found... ";
             }
         }
@@ -98,19 +86,14 @@ public:
     }
 
 
-    void display()
-    {
-        if (head == NULL)
-        {
+    void display() {
+        if (head == NULL) {
             cout << "No records yet...";
         }
-        else
-        {
+        else {
             int r;
-            int found = 0;
             node* ptr = head;
-            while (ptr != NULL)
-            {
+            while (ptr != NULL) {
 
                 cout << "roll_no:" << ptr->roll_no << endl;
                 cout << "Name:" << ptr->name << endl;
@@ -162,22 +145,18 @@ public:
     }
 
 
-    void count()
-    {
-        if (head == NULL)
-        {
+    void count() {
+        if (head == NULL) {
             cout << "No records yet...\n";
         }
-        else
-        {
-            int c = 0;
+        else {
+            int cnt = 0;
             node* ptr = head;
-            while (ptr != NULL)
-            {
-                c++;
+            while (ptr != NULL) {
+                cnt++;
                 ptr = ptr->next;
             }
-            cout << "total number of node is: " << c << endl;
+            cout << "total number of node is: " << cnt << endl;
         }
 
         cout << "**********************************\n";
@@ -197,7 +176,7 @@ public:
             file.open("students.txt");
             node* ptr = head;
             while (ptr != NULL) {
-                file << ptr->roll_no << " " << ptr->name << " " << ptr->mark << endl;
+                file << ptr->roll_no << " " << ptr->name << " " << ptr->mark << " " << ptr->per << "%" << endl;
                 ptr = ptr->next;
             }
             file.close();
@@ -216,7 +195,7 @@ int main()
     cout << endl;
     cout << "\t\t\t********** STUDENT MANAGMENT SYSTEM **********\t\t\t\n";
     cout << endl;
-    cout << "\t\t\t\t___PLEASE SELECT ONE OPTION___\t\t\t\n";
+    cout << "\t\t\t\t__PLEASE SELECT ONE OPTION__\t\t\t\n";
     cout << endl;
     cout << "1) INSERT INFO \n";
     cout << "2) SEARCH RECORD \n";
